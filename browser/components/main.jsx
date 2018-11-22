@@ -17,11 +17,12 @@ class Main extends React.Component {
     let err;
 
     try {
-      const fetchStudents = await axios.get('http://localhost:3000/student/');
+      const fetchStudents = await axios.get('http://localhost:3000/student/butt');
       console.log(fetchStudents.data);
       students = fetchStudents.data;
       err = '';
     } catch(error) {
+      console.error(error);
       students = [];
       err = error.message;
     }
@@ -44,7 +45,6 @@ class Main extends React.Component {
       </div>
     )
   }
-
 }
 
 export default Main;

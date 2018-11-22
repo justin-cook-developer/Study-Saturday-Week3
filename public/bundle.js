@@ -33292,7 +33292,7 @@ var Main = function (_React$Component) {
                 err = void 0;
                 _context.prev = 2;
                 _context.next = 5;
-                return _axios2.default.get('http://localhost:3000/student/');
+                return _axios2.default.get('http://localhost:3000/student/butt');
 
               case 5:
                 fetchStudents = _context.sent;
@@ -33300,24 +33300,25 @@ var Main = function (_React$Component) {
                 console.log(fetchStudents.data);
                 students = fetchStudents.data;
                 err = '';
-                _context.next = 15;
+                _context.next = 16;
                 break;
 
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context['catch'](2);
 
+                console.error(_context.t0);
                 students = [];
                 err = _context.t0.message;
 
-              case 15:
+              case 16:
 
                 this.setState({
                   students: students,
                   errorMessage: err
                 });
 
-              case 16:
+              case 17:
               case 'end':
                 return _context.stop();
             }
