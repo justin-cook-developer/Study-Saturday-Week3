@@ -33254,6 +33254,10 @@ var _table = __webpack_require__(372);
 
 var _table2 = _interopRequireDefault(_table);
 
+var _details = __webpack_require__(375);
+
+var _details2 = _interopRequireDefault(_details);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -33274,8 +33278,10 @@ var Main = function (_React$Component) {
 
     _this.state = {
       students: [],
-      errorMessage: ''
+      errorMessage: '',
+      studentIdForDetails: 0
     };
+    _this.getId = _this.getId.bind(_this);
     return _this;
   }
 
@@ -33292,7 +33298,7 @@ var Main = function (_React$Component) {
                 err = void 0;
                 _context.prev = 2;
                 _context.next = 5;
-                return _axios2.default.get('http://localhost:3000/student/butt');
+                return _axios2.default.get('http://localhost:3000/student/');
 
               case 5:
                 fetchStudents = _context.sent;
@@ -33300,25 +33306,24 @@ var Main = function (_React$Component) {
                 console.log(fetchStudents.data);
                 students = fetchStudents.data;
                 err = '';
-                _context.next = 16;
+                _context.next = 15;
                 break;
 
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context['catch'](2);
 
-                console.error(_context.t0);
                 students = [];
                 err = _context.t0.message;
 
-              case 16:
+              case 15:
 
                 this.setState({
                   students: students,
                   errorMessage: err
                 });
 
-              case 17:
+              case 16:
               case 'end':
                 return _context.stop();
             }
@@ -33332,6 +33337,20 @@ var Main = function (_React$Component) {
 
       return componentDidMount;
     }()
+  }, {
+    key: 'getId',
+    value: function getId(event) {
+      if (this.state.studentIdForDetails === event.currentTarget.id) {
+        this.setState({
+          studentIdForDetails: 0
+        });
+      } else {
+        this.setState({
+          studentIdForDetails: event.currentTarget.id
+        });
+      }
+      event.preventDefault();
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -33349,7 +33368,8 @@ var Main = function (_React$Component) {
           ' ',
           this.state.errorMessage,
           ' '
-        ) : _react2.default.createElement(_table2.default, { students: this.state.students })
+        ) : _react2.default.createElement(_table2.default, { students: this.state.students, getId: this.getId }),
+        this.state.studentIdForDetails !== 0 && _react2.default.createElement(_details2.default, { id: this.state.studentIdForDetails })
       );
     }
   }]);
@@ -34277,7 +34297,7 @@ var StudentsTable = function StudentsTable(props) {
     _react2.default.createElement(
       'tbody',
       null,
-      _react2.default.createElement(_tableRows2.default, { students: props.students })
+      _react2.default.createElement(_tableRows2.default, { students: props.students, getId: props.getId })
     )
   );
 };
@@ -34306,17 +34326,177 @@ var TableRows = function TableRows(props) {
   return props.students.map(function (student) {
     return _react2.default.createElement(
       'tr',
-      { key: student.id },
+      { key: student.id, id: student.id, onClick: props.getId },
       _react2.default.createElement(
         'td',
         null,
         student.fullName
+      ),
+      _react2.default.createElement(
+        'td',
+        null,
+        _react2.default.createElement(
+          'strong',
+          null,
+          'Details'
+        )
       )
     );
   });
 };
 
 exports.default = TableRows;
+
+/***/ }),
+/* 375 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(92);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(353);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _tests = __webpack_require__(376);
+
+var _tests2 = _interopRequireDefault(_tests);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Details = function (_React$Component) {
+  _inherits(Details, _React$Component);
+
+  function Details(props) {
+    _classCallCheck(this, Details);
+
+    var _this = _possibleConstructorReturn(this, (Details.__proto__ || Object.getPrototypeOf(Details)).call(this, props));
+
+    _this.state = {
+      tests: [],
+      error: ''
+    };
+    return _this;
+  }
+
+  _createClass(Details, [{
+    key: 'componentDidMount',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var fetchResult, tests;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return _axios2.default.get('http://localhost:3000/test/');
+
+              case 3:
+                fetchResult = _context.sent;
+                tests = fetchResult.data;
+
+                this.setState({ tests: tests });
+                _context.next = 12;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context['catch'](0);
+
+                console.error(_context.t0);
+                this.setState({ error: 'Cannot get tests' });
+
+              case 12:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 8]]);
+      }));
+
+      function componentDidMount() {
+        return _ref.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var studentsTests = this.state.tests.filter(function (test) {
+        return test.studentId === +_this2.props.id;
+      });
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.state.tests.length && _react2.default.createElement(_tests2.default, { tests: studentsTests }),
+        this.state.error && _react2.default.createElement(
+          'p',
+          null,
+          this.state.error
+        )
+      );
+    }
+  }]);
+
+  return Details;
+}(_react2.default.Component);
+
+exports.default = Details;
+
+/***/ }),
+/* 376 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(92);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DisplayTests = function DisplayTests(props) {
+  var tests = props.tests;
+  return tests.map(function (test) {
+    return _react2.default.createElement(
+      'p',
+      { key: test.id },
+      test.subject,
+      ': ',
+      test.grade
+    );
+  });
+};
+
+exports.default = DisplayTests;
 
 /***/ })
 /******/ ]);

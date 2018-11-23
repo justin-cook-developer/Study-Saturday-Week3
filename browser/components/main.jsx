@@ -2,14 +2,17 @@ import React from 'react';
 import axios from 'axios';
 
 import StudentsTable from './table';
+import Details from './details'
 
 class Main extends React.Component {
   constructor () {
     super();
     this.state = {
       students: [],
-      errorMessage: ''
+      errorMessage: '',
+      studentIdForDetails: 0
     };
+    this.getId = this.getId.bind(this);
   }
 
   async componentDidMount() {
@@ -17,12 +20,11 @@ class Main extends React.Component {
     let err;
 
     try {
-      const fetchStudents = await axios.get('http://localhost:3000/student/butt');
+      const fetchStudents = await axios.get('http://localhost:3000/student/');
       console.log(fetchStudents.data);
       students = fetchStudents.data;
       err = '';
     } catch(error) {
-      console.error(error);
       students = [];
       err = error.message;
     }
@@ -33,6 +35,19 @@ class Main extends React.Component {
     });
   }
 
+  getId(event) {
+    if (this.state.studentIdForDetails === event.currentTarget.id) {
+      this.setState({
+        studentIdForDetails: 0
+      });
+    } else  {
+      this.setState({
+        studentIdForDetails: event.currentTarget.id
+      });
+    }
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div>
@@ -40,7 +55,11 @@ class Main extends React.Component {
         {
           this.state.errorMessage
           ? <h2> {this.state.errorMessage} </h2>
-          : <StudentsTable students={this.state.students} />
+          : <StudentsTable students={this.state.students} getId={this.getId} />
+        }
+        {
+          this.state.studentIdForDetails !== 0 &&
+          <Details id={this.state.studentIdForDetails} />
         }
       </div>
     )

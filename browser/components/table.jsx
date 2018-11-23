@@ -6,7 +6,7 @@ const StudentsTable = props => {
   return (
     <table>
       <tbody>
-        <TableRows students={props.students} />
+        <TableRows students={props.students} getId={props.getId} />
       </tbody>
     </table>
   );
